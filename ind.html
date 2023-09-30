@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Prediction </title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+	<section class="book" id="book">
+
+		<h1 class="heading"> <span>Enter</span> Details </h1>
+
+		<div class="row">
+
+			<div class="image">
+				<img src="book-img.svg" alt="">
+			</div>
+
+			<form id="myForm">
+				<label for="age">age:</label>
+				<input type="text" id="age" name="age" class="box"><br>
+
+				<label for="Gender">Gender:</label>
+				<input type="text" id="gender" name="Gender" class="box"><br>
+
+				<label for="family_history">family_history</label>
+				<input type="text" id="family_history" name="family_history" class="box"><br>
+
+				<label for="age">care_options</label>
+				<input type="text" id="care_options" name="care_options" class="box"><br>
+
+				<label for="age">benefits</label>
+				<input type="text" id="benefits" name="benefits" class="box"><br>
+
+				<label for="anonymity">anonymity</label>
+				<input type="text" id="anonymity" name="anonymity" class="box"><br>
+
+				<label for="leave">leave</label>
+				<input type="text" id="leave" name="leave" class="box"><br>
+
+				<label for="work_interfere">work_interfere</label>
+				<input type="text" id="work_interfere" name="work_interfere" class="box"><br>
+
+
+
+				<input type="submit" value="Submit" class="btn">
+			</form>
+		</div>
+
+	</section>
+	<script>
+		var form = document.getElementById("myForm");
+
+		form.addEventListener("submit", function (event) {
+			event.preventDefault();
+
+			var age = document.getElementById("age").value;
+			var Gender = document.getElementById("gender").value;
+			var family_history = document.getElementById("family_history").value;
+			var care_options = document.getElementById("care_options").value;
+			var benefits = document.getElementById("benefits").value;
+			var anonymity = document.getElementById("anonymity").value;
+			var leave = document.getElementById("leave").value;
+			var work_interfere = document.getElementById("work_interfere").value;
+
+
+			let parameters = {
+				age: parseInt(age),
+				gender: Gender,
+				family_history: family_history,
+				benefits: benefits,
+				care: care_options,
+				anonymity: anonymity,
+				leave: leave,
+				work_interfere: work_interfere
+			}
+
+			fetch("http://127.0.0.1:5000/predict", {
+				method: "POST",
+				body: JSON.stringify(parameters),
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
+			}).then((response) => response.json())
+				.then((json) => {
+					console.log(json["result"])
+					if (json["result"] == 0) {
+						console.log("No need to visit the doctor")
+						windows.prompt("You should not go to a docter for treatmet")
+					} else {
+						console.log("You need to visit the doctor for treatment")
+						windows.prompt("You should not go to a docter for treatmet")
+					}
+				})
+		});
+	</script>
+</body>
+
+</html>
